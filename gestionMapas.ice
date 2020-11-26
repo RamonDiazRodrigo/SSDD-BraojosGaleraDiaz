@@ -10,3 +10,5 @@ module GestionMapas {
   };
   
 };
+
+//comentario: Esta todo metido en juego.ice
