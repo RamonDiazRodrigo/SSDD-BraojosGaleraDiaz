@@ -3,16 +3,15 @@
 
 import sys
 import hashlib
-import IceGauntlet
 import Ice
-Ice.loadSlice('icegauntlet.ice')
-
+Ice.loadSlice('juego.ice')
+import Juego
 
 class Client(Ice.Application):
     def run(self, argv):
 
         proxy = self.communicator().stringToProxy(argv[2])
-        auth = IceGauntlet.AuthenticationPrx.checkedCast(proxy)
+        auth = Juego.AuthenticationPrx.uncheckedCast(proxy)
 
         if not auth:
             raise RuntimeError('Invalid proxy')
