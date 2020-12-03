@@ -16,7 +16,7 @@ class Client(Ice.Application):
         if not auth:
             raise RuntimeError('Invalid proxy')
 
-        print("Introduce la contraseña para",argv[1])
+        print("Introduce la contrasena: ")
         password = input()
         f = open("token.txt", "w")
         f.write(auth.getNewToken(argv[1],hashlib.sha256(password.encode('utf-8')).hexdigest()))

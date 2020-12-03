@@ -14,10 +14,10 @@ except ImportError:
     sys.exit(1)
 
 # Define command to request new token
-_COMMAND_ = './User.py %(user)s "%(auth_proxy)s"'
+_COMMAND_ = './get_token_client.py %(user)s "%(auth_proxy)s"'
 
 # Message used by authentication client when asking for a password
-_PASSWORD_MESSAGE_ = 'Enter password:'
+_PASSWORD_MESSAGE_ = 'Introduce la contrasena: '
 _TIMEOUT_FOR_MESSAGE_ = 15
 
 # Get required arguments
