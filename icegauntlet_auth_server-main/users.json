@@ -1,6 +1,10 @@
 {
     "Ramon.Diaz2": {
-        "current_token": "ZVXGmo8pxbsu3tlHFdsJD4KmrIL7bFyto3qwHWic",
+        "current_token": "E3EJYroaPNgnC9ZeNFJ1clksJp1OTVWyEx5Ox4mf",
         "password_hash": "3e4f03c49913c07d4e300aacd9791de24df2a5c169a5fa10244adac19ccbfe36"
+    },
+    "ramon.galera": {
+        "current_token": "3tcFgqEmwhFxl0tIdPJShDPrkX2EClervKIhm3Ft",
+        "password_hash": "13b4088f2f9a285e22128d11a6a1a31254baf9936c0192655d32a7f563aad503"
     }
 }

@@ -18,9 +18,9 @@ class Client(Ice.Application):
 
         print("Introduce la contraseña para",argv[1])
         password = input()
-
-        print(auth.getNewToken(argv[1],hashlib.sha256(password.encode('utf-8')).hexdigest()))
-
+        f = open("token.txt", "w")
+        f.write(auth.getNewToken(argv[1],hashlib.sha256(password.encode('utf-8')).hexdigest()))
+        f.close()
         return 0
 
 
