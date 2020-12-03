@@ -4,6 +4,7 @@
 import sys
 import Ice
 import os
+import json
 Ice.loadSlice('juego.ice')
 import Juego
 
@@ -15,11 +16,12 @@ class GestMapas(Juego.GestMapas):
         if not self.isValid(token):
             print("Token invalido")
             return -1
-
-        f = open("room/"+roomData["room"]+".json", "x")
+        roomDataJson = json.loads(roomData)
+        archivo = "room/"+roomDataJson["room"]+".json"
+        f = open(archivo, "x")
         f.write(roomData)
         f.close()
-
+        print("Mapa publicado")
         return 0
 
     def remove(self, token, roomName,current=None):
