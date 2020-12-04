@@ -26,7 +26,7 @@ class Client(Ice.Application):
         tokenj = {"token":token}
         mapa.update(tokenj)
 
-        mapas.publish(token, json.dumps(mapa))
+        mapas.remove(token, argv[3]) # para borrar mapa
         return 0
 
 
