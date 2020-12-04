@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+'''
+Script para ejecutar el cliente de mapas
+'''
+
+import os
+import sys
+
+try:
+    import pexpect
+except ImportError:
+    print('Required library "pexpect" not exists. Install with pip and try again')
+    sys.exit(1)
+
+# Crear carpeta donde almacenar los mapas
+_DIRECTORIO_ = 'mkdir -p room'
+
+# Definir el comando para ejecutar el cliente
+
+_COMMAND_ = './room_tool.py --Ice.Config=room_tool.config "%(auth_proxy)s"'
+
+try:
+    proxy = sys.argv[1]
+except ValueError:
+    print("Hola")
+
+comando_final = _COMMAND_ % {
+    'auth_proxy': proxy
+}
+print(comando_final)
+
+#Ejecutar comando 
+proc1 = pexpect.spawn(_DIRECTORIO_)
+proc2 = pexpect.spawn(comando_final, echo=False)
