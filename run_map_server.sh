@@ -1,6 +1,5 @@
 #!/bin/sh
 
-mkdir -p room
 
 PYTHON=python3
 

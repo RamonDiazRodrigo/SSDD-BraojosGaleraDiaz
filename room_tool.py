@@ -17,7 +17,7 @@ class GestMapas(Juego.GestMapas):
             print("Token invalido")
             return -1
         roomDataJson = json.loads(roomData)
-        archivo = "room/"+roomDataJson["room"]+".json"
+        archivo = "assets/"+roomDataJson["room"]+".json"
         f = open(archivo, "x")
         f.write(roomData)
         f.close()
@@ -30,7 +30,7 @@ class GestMapas(Juego.GestMapas):
             print("Token invalido")
             return -1
 
-        os.remove("room/"+roomName)
+        os.remove("assets/"+roomName)
 
         return 0
     
