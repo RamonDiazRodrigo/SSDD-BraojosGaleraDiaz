@@ -1,0 +1,46 @@
+#!/usr/bin/python3
+
+
+'''
+Script para ejecutar el cliente de mapas
+'''
+
+import os
+import sys
+
+try:
+    import pexpect
+except ImportError:
+    print('Required library "pexpect" not exists. Install with pip and try again')
+    sys.exit(1)
+
+# Crear carpeta donde almacenar los mapas
+_DIRECTORIO_ = 'mkdir -p room'
+
+# Definir el comando para ejecutar el cliente
+_COMMAND_ = './run_game.py --Ice.Config=room_tool.config "%(service_proxy)s"'
+
+# Obtención del proxy
+try:
+    proxy = sys.argv[1]
+except:
+    print('Command arguments: {} <service_proxy> '.format(
+        os.path.basename(sys.argv[0]))
+    )
+    sys.exit(1)
+   
+# Construcción del comando final
+comando_final = _COMMAND_ % {
+    'service_proxy' : proxy
+}
+
+
+#Ejecutar comando 
+
+proc1 = pexpect.spawn(_DIRECTORIO_)
+proc2 = pexpect.spawn(comando_final, echo=False)
+
+
+
+
+
