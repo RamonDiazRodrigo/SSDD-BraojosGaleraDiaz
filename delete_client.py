@@ -17,15 +17,10 @@ class Client(Ice.Application):
 
         if not mapas:
             raise RuntimeError('Invalid proxy')
-
-        with open(argv[3]) as json_file:
-            mapa = json.load(json_file)
-            json_file.close()
+            
         f = open(argv[2], "r")
         token = f.read()
-        tokenj = {"token":token}
-        mapa.update(tokenj)
-
+      
         mapas.remove(token, argv[3]) # para borrar mapa
         return 0
 
