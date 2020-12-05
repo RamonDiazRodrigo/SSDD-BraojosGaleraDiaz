@@ -10,7 +10,7 @@
 import sys
 import hashlib
 import Ice
-
+import getpass
 Ice.loadSlice("juego.ice")
 # pylint: disable=E0401
 # pylint: disable=C0413
@@ -26,8 +26,7 @@ class Client(Ice.Application):
         if not auth:
             raise RuntimeError("Invalid proxy")
 
-        print("Introduce la contrasena: ")
-        password = input()
+        password = getpass.getpass("Introduce la contrasena: ")
         archivo = open("token.txt", "w")
         archivo.write(
             auth.getNewToken(

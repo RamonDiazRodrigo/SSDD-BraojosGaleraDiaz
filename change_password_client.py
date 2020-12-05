@@ -9,6 +9,7 @@
 import sys
 import hashlib
 import Ice
+import getpass
 Ice.loadSlice('juego.ice')
 # pylint: disable=E0401
 # pylint: disable=C0413
@@ -27,9 +28,9 @@ class Client(Ice.Application):
         lastpass = input()
         while True:
             print("Introduce la contraseña nueva")
-            newpass = input()
+            newpass = getpass.getpass()
             print("Introduce la contraseña nueva otra vez")
-            newpass2 = input()
+            newpass2 = getpass.getpass()
             if newpass == newpass2:
                 break
         if lastpass == "None":

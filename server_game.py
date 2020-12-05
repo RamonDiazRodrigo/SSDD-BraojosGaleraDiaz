@@ -49,7 +49,7 @@ class Server(Ice.Application):
         adapter = broker.createObjectAdapter("GameServerAdapter")
         proxy = adapter.add(servant, broker.stringToIdentity("GameServer1"))
 
-        print(proxy, flush=True)
+        print('"{}"'.format(proxy), flush=True)
 
         adapter.activate()
         self.shutdownOnInterrupt()

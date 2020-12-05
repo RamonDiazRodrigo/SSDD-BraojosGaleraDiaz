@@ -13,7 +13,7 @@ import sys
 import Ice
 import os
 import json
-
+import hashlib
 Ice.loadSlice("juego.ice")
 # pylint: disable=E0401
 # pylint: disable=C0413
@@ -30,15 +30,28 @@ class GestMapas(Juego.GestMapas):
 
         try:
             roomdatajson = json.loads(roomdata)
+            room = roomdatajson["room"]
+            _data = roomdatajson["data"]
         except Exception as formatoincorrecto:
             print("Error: {}".format("Error en el formato del archivo JSON."))
             raise Juego.WrongRoomFormat() from formatoincorrecto
         try:
-            archivo = "assets/" + roomdatajson["room"] + ".json"
+            nombre = hashlib.md5(room.encode()).hexdigest()
+            archivo = "assets/" + nombre + ".json"
             archivof = open(archivo, "x")
-        except Exception as mapaexistente:
-            print("Error: {}".format("El mapa ya existe."))
-            raise Juego.RoomAlreadyExists() from mapaexistente
+        except Exception:
+            try:
+                with open(archivo) as json_file:
+                    mapa = json.load(json_file)
+                    json_file.close()
+                if mapa["token"] == token:
+                    os.remove(archivo)
+                    archivof = open(archivo, "x")
+                else:
+                    raise Exception    
+            except Exception as mapaexistente:    
+                print("Error: {}".format("El mapa ya existe."))
+                raise Juego.RoomAlreadyExists() from mapaexistente
 
         archivof.write(roomdata)
         archivof.close()
@@ -53,11 +66,22 @@ class GestMapas(Juego.GestMapas):
             raise Juego.Unauthorized()
 
         try:
-            os.remove("assets/" + roomname)
-            return 0
+            nombre = hashlib.md5(roomname.encode()).hexdigest()
+            archivo = "assets/" + nombre + ".json"
+
+            with open(archivo) as json_file:
+                mapa = json.load(json_file)
+                json_file.close()
+
         except Exception as sinmapa:
             print("Error: {}".format("Mapa no encontrado."))
             raise Juego.RoomNotExists() from sinmapa
+
+        if token != mapa["token"]:
+            print("Error: {}".format("No estas autorizado."))
+            raise Juego.Unauthorized()
+        os.remove(archivo)
+        return 0
 
     def isvalid(self, token):
         proxyauth = Ice.Application.communicator().stringToProxy(sys.argv[1])
@@ -66,10 +90,7 @@ class GestMapas(Juego.GestMapas):
         if not auth:
             raise RuntimeError("Invalid proxy")
 
-        if auth.isvalid(token):
-            return True
-        else:
-            return False
+        return auth.isValid(token)
 
 
 class Server(Ice.Application):
@@ -87,7 +108,7 @@ class Server(Ice.Application):
         adapter = broker.createObjectAdapter("RoomServerAdapter")
         proxy = adapter.add(servant, broker.stringToIdentity("RoomAdapter1"))
 
-        print(proxy, flush=True)
+        print('"{}"'.format(proxy), flush=True)
 
         adapter.activate()
         self.shutdownOnInterrupt()

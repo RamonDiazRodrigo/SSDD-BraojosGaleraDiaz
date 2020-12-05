@@ -65,9 +65,6 @@ def parse_commandline():
 
 class Client(Ice.Application):
     def run(self, argv):
-        '''Start game according to commandline'''
-
-        # fork al servidor de mapas
 
         proxy = self.communicator().stringToProxy(argv[1])
         mapas = Juego.SerJuegoPrx.uncheckedCast(proxy)
@@ -76,9 +73,6 @@ class Client(Ice.Application):
             raise RuntimeError('Invalid proxy')
         level = []
         level.append(mapas.getRoom())
-        # una vez hecho el fork al servidor de mapas se tiene que coger un mapa
-        # el mapa se coge de la interfaz SerJuego del slice, del metodo getRoom()
-        # una vez se coja el mapa se tiene que pasar como argumento en el parse_commandline
 
         game.pyxeltools.initialize()
         dungeon = game.DungeonMap(level)
