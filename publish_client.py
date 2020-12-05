@@ -11,7 +11,7 @@ import Juego
 
 class Client(Ice.Application):
     def run(self, argv):
-        print("proxy mapa:"+argv[1])
+
         proxy = self.communicator().stringToProxy(argv[1])
         mapas = Juego.GestMapasPrx.uncheckedCast(proxy)
 
