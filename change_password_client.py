@@ -1,10 +1,17 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+# pylint: disable=W1203
+# pylint: disable=W0613
+'''
+   ICE Gauntlet Change Password Client
+'''
 
 import sys
 import hashlib
 import Ice
 Ice.loadSlice('juego.ice')
+# pylint: disable=E0401
+# pylint: disable=C0413
 import Juego
 
 class Client(Ice.Application):

@@ -1,6 +1,14 @@
 #!/usr/bin/python3
 # -*- coding:utf-8; mode:python -*-
+# pylint: disable=W0613
+# pylint: disable=C0411
+# pylint: disable=C0115
+# pylint: disable=C0116
+# pylint: disable=C0103
 
+"""
+   ICE Gauntlet Game Server
+"""
 
 import sys
 import Ice
@@ -9,11 +17,13 @@ import json
 import glob
 import random
 Ice.loadSlice('juego.ice')
+# pylint: disable=E0401
+# pylint: disable=C0413
 import Juego
 
 class SerJuego(Juego.SerJuego):
     def getRoom(self, current=None):
-        
+
         try:
             rooms = []
             for name in glob.glob('assets/*.json'):
@@ -22,15 +32,15 @@ class SerJuego(Juego.SerJuego):
                 rooms.remove("assets/palette.json")
             rng = random.randint(0, len(rooms)-1)
             return rooms[rng]
-        except Exception:
+        except Exception as noexiste:
             print("Error: {}".format("Mapa no encontrado."))
-            raise Juego.RoomNotExists()
+            raise Juego.RoomNotExists() from noexiste
 
 class Server(Ice.Application):
     def run(self, argv):
 
         if len(sys.argv) != 1:
-            print("Formato incorrecto. El formato es ./room_tool.py --Ice.Config=room_tool.config <proxyAuth_server>")
+            print("Formato: ./room_tool.py --Ice.Config=room_tool.config <proxyAuth_server>")
             return -1
 
         broker = self.communicator()

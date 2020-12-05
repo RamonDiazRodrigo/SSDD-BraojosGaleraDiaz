@@ -1,12 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+#
+# pylint: disable=C0115
 
+"""
+   ICE Publish Client
+"""
 
 import sys
-import hashlib
 import json
 import Ice
 Ice.loadSlice('juego.ice')
+# pylint: disable=E0401
+# pylint: disable=C0413
 import Juego
 
 class Client(Ice.Application):
@@ -21,8 +27,8 @@ class Client(Ice.Application):
         with open(argv[3]) as json_file:
             mapa = json.load(json_file)
             json_file.close()
-        f = open(argv[2], "r")
-        token = f.read()
+        archivo = open(argv[2], "r")
+        token = archivo.read()
         tokenj = {"token":token}
         mapa.update(tokenj)
         try:

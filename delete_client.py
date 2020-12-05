@@ -1,12 +1,16 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+# pylint: disable=C0115
 
+'''
+   ICE Gauntlet Delete Client
+'''
 
 import sys
-import hashlib
-import json
 import Ice
 Ice.loadSlice('juego.ice')
+# pylint: disable=E0401
+# pylint: disable=C0413
 import Juego
 
 class Client(Ice.Application):
@@ -17,11 +21,11 @@ class Client(Ice.Application):
 
         if not mapas:
             raise RuntimeError('Invalid proxy')
-            
-        f = open(argv[2], "r")
-        token = f.read()
-      
-        mapas.remove(token, argv[3]) # para borrar mapa
+
+        archivo = open(argv[2], "r")
+        token = archivo.read()
+
+        mapas.remove(token, argv[3])
         return 0
 
 

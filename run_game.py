@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# pylint: disable=W1203
-
+#
+# pylint: disable=C0115
 '''
     ICE Gauntlet LOCAL GAME
 
-    Se debe crear un fork del juego local. El nuevo cliente deberá solicitar el proxy del servicio del
+    Se debe crear un fork del juego local.
+    El nuevo cliente deberá solicitar el proxy del servicio del
     juego y mantener el resto de opciones que tiene el cliente original.
 
 '''
+
 import sys
 import os
 import atexit
@@ -18,6 +20,8 @@ import psutil
 
 import Ice
 Ice.loadSlice('juego.ice')
+# pylint: disable=E0401
+# pylint: disable=C0413
 import Juego
 import game
 import game.common
