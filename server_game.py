@@ -13,14 +13,18 @@ import Juego
 
 class SerJuego(Juego.SerJuego):
     def getRoom(self, current=None):
-        rooms = []
-        for name in glob.glob('assets/*.json'):
-            rooms.append(name)
-        if "assets/palette.json" in rooms:
-            rooms.remove("assets/palette.json")
-        rng = random.randint(0, len(rooms)-1)
-        return rooms[rng]
-
+        
+        try:
+            rooms = []
+            for name in glob.glob('assets/*.json'):
+                rooms.append(name)
+            if "assets/palette.json" in rooms:
+                rooms.remove("assets/palette.json")
+            rng = random.randint(0, len(rooms)-1)
+            return rooms[rng]
+        except Exception:
+            print("Error: {}".format("Mapa no encontrado."))
+            raise Juego.RoomNotExists()
 
 class Server(Ice.Application):
     def run(self, argv):

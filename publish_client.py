@@ -25,9 +25,12 @@ class Client(Ice.Application):
         token = f.read()
         tokenj = {"token":token}
         mapa.update(tokenj)
+        try:
+            mapas.publish(token, json.dumps(mapa))
+            return 0
+        except Exception:
+            print("Error: {}".format("Se ha producido un error."))
 
-        mapas.publish(token, json.dumps(mapa))
-        return 0
 
 
 sys.exit(Client().main(sys.argv))

@@ -12,16 +12,30 @@ import Juego
 
 class GestMapas(Juego.GestMapas):
     def publish(self, token, roomData, current=None):
-        print("Publicando mapa")
+        
+        
+        print("Publicando mapa...")
         if not self.isValid(token):
-            print("Token invalido")
-            return -1
-        roomDataJson = json.loads(roomData)
-        archivo = "assets/"+roomDataJson["room"]+".json"
-        f = open(archivo, "x")
+            print("Error: {}".format("No estas autorizado."))
+            raise Juego.Unauthorized()
+        
+        try:
+            roomDataJson = json.loads(roomData)
+            archivo = "assets/"+roomDataJson["room"]+".json"
+        except Exception:
+            print("Error: {}".format("Error en el formato del archivo JSON."))
+            raise Juego.WrongRoomFormat()
+
+        try:
+            f = open(archivo, "x")
+        except Exception:
+            print("Error: {}".format("El mapa ya existe."))
+            raise Juego.RoomAlreadyExists()
+        
+        
         f.write(roomData)
         f.close()
-        print("Mapa publicado")
+        print("Mapa publicado.")
         return 0
 
     def remove(self, token, roomName,current=None):
