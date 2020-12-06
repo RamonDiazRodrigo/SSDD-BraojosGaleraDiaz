@@ -9,8 +9,8 @@
 
 import sys
 import hashlib
-import Ice
 import getpass
+import Ice
 Ice.loadSlice("juego.ice")
 # pylint: disable=E0401
 # pylint: disable=C0413

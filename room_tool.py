@@ -48,8 +48,8 @@ class GestMapas(Juego.GestMapas):
                     os.remove(archivo)
                     archivof = open(archivo, "x")
                 else:
-                    raise Exception    
-            except Exception as mapaexistente:    
+                    raise Exception
+            except Exception as mapaexistente:
                 print("Error: {}".format("El mapa ya existe."))
                 raise Juego.RoomAlreadyExists() from mapaexistente
 
