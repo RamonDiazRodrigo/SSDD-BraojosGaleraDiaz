@@ -10,16 +10,16 @@
 import sys
 import json
 import Ice
-Ice.loadSlice('juego.ice')
+Ice.loadSlice('icegauntlet.ice')
 # pylint: disable=E0401
 # pylint: disable=C0413
-import Juego
+import IceGauntlet
 
 class Client(Ice.Application):
     def run(self, argv):
 
         proxy = self.communicator().stringToProxy(argv[1])
-        mapas = Juego.GestMapasPrx.uncheckedCast(proxy)
+        mapas = IceGauntlet.RoomManagerads.uncheckedCast(proxy)
 
         if not mapas:
             raise RuntimeError('Invalid proxy')
@@ -29,8 +29,7 @@ class Client(Ice.Application):
             json_file.close()
         archivo = open(argv[2], "r")
         token = archivo.read()
-        tokenj = {"token":token}
-        mapa.update(tokenj)
+    
         try:
             mapas.publish(token, json.dumps(mapa))
             return 0

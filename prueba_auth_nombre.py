@@ -27,9 +27,13 @@ class Client(Ice.Application):
 
         if not auth:
             raise RuntimeError("Invalid proxy")
-
-        token = "E3EJYroaPNgnC9ZeNFJ1clksJp1OTVWyEx5Ox4mf"
-        nombre = auth.getOwner(token) 
+        nombre = "No autorizado"
+        token = "3tcFgqEmwhFxl0tIdPJShDPrkX2EClervKIhm3F"
+        try:
+            nombre = auth.getOwner(token) 
+        except Exception as identifier:
+            raise IceGauntlet.Unauthorized from identifier
+        
         print(nombre)
         return 0
 

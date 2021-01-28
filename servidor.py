@@ -66,9 +66,8 @@ class RoomManager(IceGauntlet.RoomManager):
     def publish(self, token, roomdata, current=None):
 
         print("Publicando mapa...")
-        if not self.isvalid(token):
-            print("Error: {}".format("No estas autorizado."))
-            raise IceGauntlet.Unauthorized()
+        
+        usuario = self.getnombre(token)
 
         try:
             roomdatajson = json.loads(roomdata)
@@ -86,7 +85,8 @@ class RoomManager(IceGauntlet.RoomManager):
                 with open(archivo) as json_file:
                     mapa = json.load(json_file)
                     json_file.close()
-                if mapa["token"] == token:
+                
+                if usuario == mapa["usuario"]:
                     os.remove(archivo)
                     archivof = open(archivo, "x")
                 else:
@@ -94,7 +94,8 @@ class RoomManager(IceGauntlet.RoomManager):
             except Exception as mapaexistente:
                 print("Error: {}".format("El mapa ya existe."))
                 raise IceGauntlet.RoomAlreadyExists() from mapaexistente
-
+        usuariojson = {"usuario":usuario}
+        roomdata.update(usuariojson)
         archivof.write(roomdata)
         archivof.close()
         print("Mapa publicado.")
@@ -103,9 +104,6 @@ class RoomManager(IceGauntlet.RoomManager):
     def remove(self, token, roomname, current=None):
 
         print("Borrando mapa")
-        if not self.isvalid(token):
-            print("Error: {}".format("No estas autorizado."))
-            raise IceGauntlet.Unauthorized()
 
         try:
             nombre = hashlib.md5(roomname.encode()).hexdigest()
@@ -119,7 +117,8 @@ class RoomManager(IceGauntlet.RoomManager):
             print("Error: {}".format("Mapa no encontrado."))
             raise IceGauntlet.RoomNotExists() from sinmapa
 
-        if token != mapa["token"]:
+        usuario = self.getnombre(token)
+        if usuario != mapa["usuario"]:
             print("Error: {}".format("No estas autorizado."))
             raise IceGauntlet.Unauthorized()
         os.remove(archivo)
@@ -129,14 +128,17 @@ class RoomManager(IceGauntlet.RoomManager):
         rooms = self.serverMaster.serverList
         return self.serverMaster.dictToList(rooms)
 
-    def isvalid(self, token):
+    def getnombre(self, token):
         proxyauth = Ice.Application.communicator().stringToProxy(sys.argv[1])
         auth = IceGauntlet.AuthenticationPrx.uncheckedCast(proxyauth)
 
         if not auth:
             raise RuntimeError("Invalid proxy")
-
-        return auth.isValid(token)
+        try:
+            return auth.getOwner(token)
+        except Exception:
+            return None
+        
 
 
 class Server(Ice.Application):
