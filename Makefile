@@ -13,11 +13,11 @@ run: clean
 	sleep 2
 	$(MAKE) run-server-node &
 
-run-registry-node: /tmp/db/registry /tmp/db/registry-node/servers 
-	icegridnode --Ice.Config=registry-node.config
+run-registry-node: /tmp/db/node1 /tmp/db/node1/servers 
+	icegridnode --Ice.Config=node1.config
 
-run-servidor-node: /tmp/db/servidor-node/servers 
-	icegridnode --Ice.Config=servidor-node.config
+run-servidor-node: /tmp/db/node2/servers 
+	icegridnode --Ice.Config=node2.config
 
 run-auth-node: /tmp/db/auth-node/servers 
 	icegridnode --Ice.Config=auth-node.config
